@@ -32,7 +32,7 @@ Test Website: https://flights.agoda.com/
 1. To get allure report run `allure generate && allure open` from terminal
 2. Then open the generated url
 
-![alt text](https://github.com/humayun.ashik/webdriverio-mocha-ui-automation/blob/master/allure-sample-report.png?raw=true)
+![alt text](https://github.com/humayun-ashik/webdriverio-mocha-ui-automation/blob/master/allure-sample-report.png?raw=true)
 
 ## Project Structure
 ```bash
