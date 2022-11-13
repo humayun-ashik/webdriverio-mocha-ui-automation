@@ -33,6 +33,7 @@ Test Website: https://flights.agoda.com/
 2. Then open the generated url
 
 ![alt text](https://github.com/humayun-ashik/webdriverio-mocha-ui-automation/blob/master/allure-sample-report.png?raw=true)
+![alt text](https://github.com/humayun-ashik/webdriverio-mocha-ui-automation/blob/master/allure-report-suites.png?raw=true)
 
 ## Project Structure
 ```bash
