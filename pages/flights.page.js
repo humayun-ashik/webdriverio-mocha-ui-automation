@@ -1,10 +1,12 @@
 const AbstractPage = require('./abstract.page');
 const elementUtil = require('../util/elementUtil')
+const searchData = require('../testData/searchData')
 const { expect } = require("chai");
 
 class FlightsPage extends AbstractPage{
     async open(path) {
-        return super.open(path);
+        await super.open(path);
+        await browser.maximizeWindow();
     }
 
     // Getter methods for page locators
@@ -103,7 +105,7 @@ class FlightsPage extends AbstractPage{
     async setDepartureCity(city){
         await elementUtil.doClearValue(this.departureCity);
         await elementUtil.doSetValue(this.departureCity, city);
-        await browser.pause(2000);
+        await browser.pause(2500);
     }
     async setDepartureMultiCity(city, element){
         await elementUtil.doClearValue(element);
@@ -113,7 +115,7 @@ class FlightsPage extends AbstractPage{
     async setReturnCity(city){
         await elementUtil.doClearValue(this.destinationCity);
         await elementUtil.doSetValue(this.destinationCity, city);
-        await browser.pause(2000);
+        await browser.pause(2500);
     }
     async setReturnMultiCity(city, element){
         await elementUtil.doClearValue(element);
@@ -183,31 +185,32 @@ class FlightsPage extends AbstractPage{
     }
     async clickSearchButton(){
         await elementUtil.doClick(this.searchButton);
-        await browser.pause(3000);
+        await browser.pause(7000);
     }
     async clickMultiCitySearchButton(element){
         await elementUtil.doClick(element);
-        await browser.pause(3000);
+        await browser.pause(7000);
     }
 
     async prepareMulticityData(){
-        await this.setDepartureMultiCity("Dhaka", this.departureCity1);
-        await this.setReturnMultiCity("Cox Bazar", this.destinationCity1 );
+        await this.setDepartureMultiCity(searchData.cityFrom, this.departureCity1);
+        await this.setReturnMultiCity(searchData.cityTo, this.destinationCity1 );
         await this.setDepartureMultiDate(this.departureDate1);
-        await this.setDepartureMultiTime(this.departureTime1, "6:00 am");
-        await this.setMulticityCabinClass(this.multiCityCabinSelection, "Business")
+        await this.setDepartureMultiTime(this.departureTime1, searchData.departureTime1);
+        await this.setMulticityCabinClass(this.multiCityCabinSelection, searchData.multiCityPageBusinessClass)
 
-        await this.setDepartureMultiCity("Cox Bazar", this.departureCity2);
-        await this.setReturnMultiCity("Karachi", this.destinationCity2);
+        await this.setDepartureMultiCity(searchData.cityTo, this.departureCity2);
+        await this.setReturnMultiCity(searchData.city3, this.destinationCity2);
         await this.setDepartureMultiDate(this.departureDate2);
-        await this.setDepartureMultiTime(this.departureTime2, "9:00 am");
-        await this.setMulticityCabinClass(this.multiCityCabinSelection, "First")
+        await this.setDepartureMultiTime(this.departureTime1, searchData.departureTime2);
+        await this.setMulticityCabinClass(this.multiCityCabinSelection, searchData.multiCityPageFirstClass)
 
     }
 
 
     // Helper functions
     async roundTripFlight(CityFrom, CityTo) {
+        await this.open("/");
         await this.setDepartureCity(CityFrom);
         await this.setReturnCity(CityTo);
         await this.setDepartureDate();
@@ -217,17 +220,19 @@ class FlightsPage extends AbstractPage{
 
     }
     async roundTripFlightWithoutDate(CityFrom, CityTo) {
+        await this.open("/");
+        await elementUtil.doClick(this.roundTripLink);
         await this.setDepartureCity(CityFrom);
         await this.setReturnCity(CityTo);
-        await elementUtil.doClick(this.departureDate);
+        await elementUtil.doClearValue(this.departureDate);
         await this.clickSearchButton();
         const errMessage = await elementUtil.doGetText(this.errorMessage);
         console.log(errMessage);
-        await expect(errMessage).to.have.contains('Please enter a valid \'Depart\' date.\n' +
-            'Please enter a valid \'Return\' date.')
+        await expect(errMessage).to.have.contains(searchData.errorMessageDate);
 
     }
     async roundTripWithNTravelers(CityFrom, CityTo, count){
+        await this.open("/");
         await this.setDepartureCity(CityFrom);
         await this.setReturnCity(CityTo);
         await this.setDepartureDate();
@@ -239,6 +244,7 @@ class FlightsPage extends AbstractPage{
 
     }
     async oneWayTripFlight(cityFrom, cityTo, cabinClass){
+        await this.open("/");
         await elementUtil.doClick(this.oneWayTripLink);
         await this.setDepartureCity(cityFrom);
         await this.setReturnCity(cityTo);
@@ -248,13 +254,14 @@ class FlightsPage extends AbstractPage{
         await this.clickSearchButton();
 
     }
-    async multiCityTrip(){
-        await elementUtil.doClick(this.multicityTripLink)
-        await this.prepareMulticityData();
-        await this.clickMultiCitySearchButton(this.multiCitySearchButton);
-
-    }
+    // async multiCityTrip(){
+    //     await elementUtil.doClick(this.multicityTripLink)
+    //     await this.prepareMulticityData();
+    //     await this.clickMultiCitySearchButton(this.multiCitySearchButton);
+    //
+    // }
     async multiCityTripWithSpecificTime(){
+        await this.open("/");
         await elementUtil.doClick(this.multicityTripLink)
         await this.prepareMulticityData();
         await this.clickMultiCitySearchButton(this.multiCitySearchButton);

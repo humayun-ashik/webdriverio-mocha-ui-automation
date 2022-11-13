@@ -5,8 +5,8 @@ Ready-to-use UI Test Automation Project using Selenium, Webdriver IO, Javascript
 ## Languages and Frameworks
 
 The project uses the following:
-- *[Javascript ES2019](https://openjdk.java.net/projects/jdk/11/)* as the programming language.
-- *[Webdriver IO](https://mochajs.org/)* as the test automation framework.
+- *[Javascript ES2019](https://www.javascript.com/)* as the scripting language.
+- *[Webdriver IO](https://webdriver.io/)* as the test automation framework.
 - *[Mocha](https://mochajs.org/)* as the testing framework.
 - *[Chai](https://www.chaijs.com/)* as the assertion library.
 - *[Allure Reports](https://www.extentreports.com/)* as the test reporting strategy.
@@ -16,10 +16,10 @@ The project uses the following:
 1. Clone the git repo — `git clone https://github.com/humayun-ashik/webdriverio-mocha-ui-automation.git`
 2. Then copy the files to your project directory (all files in `/test`, `/pages`, `/util` and the `wdio.*.conf.js`)
 3. Merge project dev dependencies with your projects dev dependencies in your `package.json`
-4. To run entire test suite just run `npm run test` on your terminal.
+4. To run entire test suite just run `npm test` on your terminal.
 
 ## Test Scenarios
-Test Website: https://flights.agoda.com
+Test Website: https://flights.agoda.com/
 
 > 1. Search Economy class round-trip flights for 1 adult
 > 2. Search Economy class round-trip flights for multiple travellers
@@ -30,14 +30,17 @@ Test Website: https://flights.agoda.com
 ## Project Structure
 ```bash
 webdriverio-mocha-ui-automation/
-├─ reports/
-│  ├─ html-reports/
 ├─ pages/
 │  ├─ abstract.page.js
 │  ├─ flights.page.js
+├─ reports/
+│  ├─ html-reports/
 ├─ test/
 │  ├─ searchflights.test.js
+├─ testData/
+│  ├─ searchData.js
 ├─ util/
+│  ├─ config.js
 │  ├─ Utilities.js
 │  ├─ elementUtil.js
 ├─ .gitignore

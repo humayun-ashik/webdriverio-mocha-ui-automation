@@ -18,7 +18,7 @@ class ElementUtil{
         return element.getText()
     }
     async doSelectDropdownValues(element, byWhat, value){
-        // await element.waitForDisplayed()
+        await element.waitForExist({timeout: 5000});
         if(byWhat === 'TEXT'){
             await element.selectByVisibleText(value)
         }

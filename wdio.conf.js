@@ -1,4 +1,7 @@
 // const utilities= require("../util/Utilities");
+const configData = require('./util/config')
+const flightsPage = require('./pages/flights.page')
+const baseURL  = configData.baseUrl;
 
 exports.config = {
     //
@@ -98,7 +101,7 @@ exports.config = {
     // gets prepended directly.
     // baseUrl: 'http://the-internet.herokuapp.com',
     //
-    baseUrl: 'https://flights.agoda.com',
+    baseUrl: baseURL,
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
     //
@@ -224,6 +227,7 @@ exports.config = {
             global.assert = chai.assert
             global.should = chai.should
             global.expect = chai.expect
+
     },
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
