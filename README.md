@@ -27,6 +27,13 @@ Test Website: https://flights.agoda.com/
 > 4. Search First class flights for one way trip
 > 5. Search Business and First class flights for multicity trip with specific time
 > 6. Search Economy class round-trip flights without date selection
+
+## Report
+1. To get allure report run `allure generate && allure open` from terminal
+2. Then open the generated url
+
+![alt text](https://github.com/humayun.ashik/webdriverio-mocha-ui-automation/blob/master/allure-sample-report.png?raw=true)
+
 ## Project Structure
 ```bash
 webdriverio-mocha-ui-automation/

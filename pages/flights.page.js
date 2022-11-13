@@ -136,7 +136,6 @@ class FlightsPage extends AbstractPage{
         await elementUtil.doSelectDropdownValues(element,"TEXT",time);
 
     }
-
     async setReturnDate(){
         await elementUtil.doClick(this.returnDate);
         await elementUtil.doClick(this.toDate);
@@ -191,7 +190,6 @@ class FlightsPage extends AbstractPage{
         await elementUtil.doClick(element);
         await browser.pause(7000);
     }
-
     async prepareMulticityData(){
         await this.setDepartureMultiCity(searchData.cityFrom, this.departureCity1);
         await this.setReturnMultiCity(searchData.cityTo, this.destinationCity1 );
@@ -254,12 +252,6 @@ class FlightsPage extends AbstractPage{
         await this.clickSearchButton();
 
     }
-    // async multiCityTrip(){
-    //     await elementUtil.doClick(this.multicityTripLink)
-    //     await this.prepareMulticityData();
-    //     await this.clickMultiCitySearchButton(this.multiCitySearchButton);
-    //
-    // }
     async multiCityTripWithSpecificTime(){
         await this.open("/");
         await elementUtil.doClick(this.multicityTripLink)
@@ -267,7 +259,6 @@ class FlightsPage extends AbstractPage{
         await this.clickMultiCitySearchButton(this.multiCitySearchButton);
 
     }
-
 
 }
 
