@@ -1,4 +1,4 @@
-const utilities= require("../util/Utilities");
+// const utilities= require("../util/Utilities");
 
 exports.config = {
     //
@@ -248,17 +248,17 @@ exports.config = {
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
     afterTest: async function(test, context, { error, result, duration, passed, retries }) {
-        // if (!passed) {
-        //     await browser.takeScreenshot();
-        // }
-        if (error !== undefined) {
-            try {
-                //TODO: Fix allure reporting on failure
-                utilities.takeScreenshot(test.title, true)
-            } catch {
-                console.log('>> Capture Screenshot Failed!');
-            }
+        if (!passed) {
+            await browser.takeScreenshot();
         }
+        // if (error !== undefined) {
+        //     try {
+        //         //TODO: Fix allure reporting on failure
+        //         utilities.takeScreenshot(test.title, true)
+        //     } catch {
+        //         console.log('>> Capture Screenshot Failed!');
+        //     }
+        // }
     },
 
 

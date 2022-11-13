@@ -1,5 +1,6 @@
 const AbstractPage = require('./abstract.page');
 const elementUtil = require('../util/elementUtil')
+const { expect } = require("chai");
 
 class FlightsPage extends AbstractPage{
     async open(path) {
@@ -37,6 +38,12 @@ class FlightsPage extends AbstractPage{
     get departureDate(){
         return $("(//div[@class='dateInput size-l'])[1]");
     }
+    get departureTime1(){
+        return $("(//select[@title='Anytime'])[1]");
+    }
+    get departureTime2(){
+        return $("(//select[@title='Anytime'])[2]");
+    }
     get departureDate1(){
         return $("//div[@aria-label='Flight 1 - Departure date input']");
     }
@@ -61,6 +68,9 @@ class FlightsPage extends AbstractPage{
     get firstClass(){
         return $("//span[normalize-space()='First']");
     }
+    get multiCityCabinSelection(){
+        return $("(//select[@title='Economy'])[1]");
+    }
     get incrementAdultTravelersIcon(){
         return $("(//span[@class='icon plus'])[1]");
     }
@@ -84,6 +94,9 @@ class FlightsPage extends AbstractPage{
     }
     get multiCitySearchButton(){
         return $("span[class='v-c-p centre ']");
+    }
+    get errorMessage(){
+        return $(".errorMessages");
     }
 
     // Page actions
@@ -117,6 +130,11 @@ class FlightsPage extends AbstractPage{
         await elementUtil.doClick(this.toDate);
 
     }
+    async setDepartureMultiTime(element, time){
+        await elementUtil.doSelectDropdownValues(element,"TEXT",time);
+
+    }
+
     async setReturnDate(){
         await elementUtil.doClick(this.returnDate);
         await elementUtil.doClick(this.toDate);
@@ -135,6 +153,9 @@ class FlightsPage extends AbstractPage{
             await elementUtil.doClick(this.firstClass);
         }
 
+    }
+    async setMulticityCabinClass(element, cabinClass){
+        await elementUtil.doSelectDropdownValues(this.multiCityCabinSelection, "TEXT", cabinClass);
     }
     async incrementTravelers(travellerType, count){
         let element = "";
@@ -173,10 +194,14 @@ class FlightsPage extends AbstractPage{
         await this.setDepartureMultiCity("Dhaka", this.departureCity1);
         await this.setReturnMultiCity("Cox Bazar", this.destinationCity1 );
         await this.setDepartureMultiDate(this.departureDate1);
+        await this.setDepartureMultiTime(this.departureTime1, "6:00 am");
+        await this.setMulticityCabinClass(this.multiCityCabinSelection, "Business")
 
         await this.setDepartureMultiCity("Cox Bazar", this.departureCity2);
-        await this.setReturnMultiCity("Dhaka", this.destinationCity2);
+        await this.setReturnMultiCity("Karachi", this.destinationCity2);
         await this.setDepartureMultiDate(this.departureDate2);
+        await this.setDepartureMultiTime(this.departureTime2, "9:00 am");
+        await this.setMulticityCabinClass(this.multiCityCabinSelection, "First")
 
     }
 
@@ -189,6 +214,17 @@ class FlightsPage extends AbstractPage{
         await this.setReturnDate();
         await this.clickSearchButton();
 
+
+    }
+    async roundTripFlightWithoutDate(CityFrom, CityTo) {
+        await this.setDepartureCity(CityFrom);
+        await this.setReturnCity(CityTo);
+        await elementUtil.doClick(this.departureDate);
+        await this.clickSearchButton();
+        const errMessage = await elementUtil.doGetText(this.errorMessage);
+        console.log(errMessage);
+        await expect(errMessage).to.have.contains('Please enter a valid \'Depart\' date.\n' +
+            'Please enter a valid \'Return\' date.')
 
     }
     async roundTripWithNTravelers(CityFrom, CityTo, count){
@@ -213,6 +249,12 @@ class FlightsPage extends AbstractPage{
 
     }
     async multiCityTrip(){
+        await elementUtil.doClick(this.multicityTripLink)
+        await this.prepareMulticityData();
+        await this.clickMultiCitySearchButton(this.multiCitySearchButton);
+
+    }
+    async multiCityTripWithSpecificTime(){
         await elementUtil.doClick(this.multicityTripLink)
         await this.prepareMulticityData();
         await this.clickMultiCitySearchButton(this.multiCitySearchButton);

@@ -17,6 +17,18 @@ class ElementUtil{
         await element.waitForDisplayed()
         return element.getText()
     }
+    async doSelectDropdownValues(element, byWhat, value){
+        // await element.waitForDisplayed()
+        if(byWhat === 'TEXT'){
+            await element.selectByVisibleText(value)
+        }
+        if(byWhat === 'INDEX'){
+            await element.selectByIndex(value)
+        }
+
+
+    }
+
 
 }
 module.exports = new ElementUtil()
